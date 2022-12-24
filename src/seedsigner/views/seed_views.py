@@ -38,6 +38,7 @@ class SeedsMenuView(View):
         for seed in self.controller.storage.seeds:
             self.seeds.append({
                 "fingerprint": seed.get_fingerprint(self.settings.get_value(SettingsConstants.SETTING__NETWORK)),
+                "has_passphrase": seed.passphrase is not None
             })
 
 
@@ -543,9 +544,6 @@ class SeedExportXpubScriptTypeView(View):
         ).display()
 
         if selected_menu_num == RET_CODE__BACK_BUTTON:
-            # If previous view is SeedOptionsView then that should be where resume_main_flow started (otherwise it would have been skipped).
-            if self.controller.back_stack[-2].View_cls == SeedOptionsView:
-                self.controller.resume_main_flow = None
             return Destination(BackStackView)
 
         else:
@@ -1408,22 +1406,22 @@ class AddressVerificationStartView(View):
                 sig_type = SettingsConstants.MULTISIG
                 if self.controller.multisig_wallet_descriptor:
                     # Can jump straight to the brute-force verification View
-                    destination = Destination(SeedAddressVerificationView, skip_current_view=True)
+                    destination = Destination(SeedAddressVerificationView)
                 else:
                     self.controller.resume_main_flow = Controller.FLOW__VERIFY_MULTISIG_ADDR
-                    destination = Destination(LoadMultisigWalletDescriptorView, skip_current_view=True)
+                    destination = Destination(LoadMultisigWalletDescriptorView)
 
             else:
                 sig_type = SettingsConstants.SINGLE_SIG
-                destination = Destination(SeedSingleSigAddressVerificationSelectSeedView, skip_current_view=True)
+                destination = Destination(SeedSingleSigAddressVerificationSelectSeedView)
 
         elif self.controller.unverified_address["script_type"] == SettingsConstants.TAPROOT:
             # TODO: add Taproot support
-            return Destination(NotYetImplementedView, skip_current_view=True)
+            return Destination(NotYetImplementedView)
 
         elif self.controller.unverified_address["script_type"] == SettingsConstants.LEGACY_P2PKH:
             # TODO: detect single sig vs multisig or have to prompt?
-            return Destination(NotYetImplementedView, skip_current_view=True)
+            return Destination(NotYetImplementedView)
 
         derivation_path = embit_utils.get_standard_derivation_path(
             network=self.controller.unverified_address["network"],
@@ -1494,6 +1492,9 @@ class SeedSingleSigAddressVerificationSelectSeedView(View):
         for seed in seeds:
             button_str = seed.get_fingerprint(self.settings.get_value(SettingsConstants.SETTING__NETWORK))
             
+            if seed.passphrase is not None:
+                # TODO: Include lock icon on right side of button
+                pass
             button_data.append((button_str, SeedSignerCustomIconConstants.FINGERPRINT, "blue"))
 
             text = "Select seed to verify"

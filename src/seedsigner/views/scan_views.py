@@ -102,9 +102,6 @@ class ScanView(View):
             else:
                 return Destination(NotYetImplementedView)
 
-        if self.decoder.is_invalid:
-            raise Exception("QRCode not recognized or not yet supported.")
-
         return Destination(MainMenuView)
 
 
