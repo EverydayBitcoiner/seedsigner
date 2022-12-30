@@ -1,5 +1,5 @@
 name: GUI Improvement
-description: See something in the Graphical User Interface (GUI) that could be better? Fill out this form to let us know.
+description: See something in SeedSigner's Graphical User Interface (GUI) that could be better? Fill out this form to let us know.
 title: "[GUI]: "
 labels: ["gui"]
 body:
@@ -17,13 +17,13 @@ body:
   - type: textarea
     attributes:
       label: Current GUI
-      description: A concise description of how the GUI currently appears.
+      description: A concise description of how the SeedSigner GUI currently appears.
     validations:
       required: false
   - type: textarea
     attributes:
       label: Desired GUI
-      description: A concise description of how you think the GUI should look.
+      description: A concise description of how you think the SeedSigner GUI should look.
     validations:
       required: false
   - type: textarea
