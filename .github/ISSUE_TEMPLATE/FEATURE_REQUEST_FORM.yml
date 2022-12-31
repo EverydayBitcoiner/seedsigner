@@ -44,6 +44,6 @@ body:
         required: false
   - type: textarea
     attributes:
-      label: Bounty Ammount (If Applicable)
+      label: Bounty Amount (If Applicable)
     validations:
       required: false
