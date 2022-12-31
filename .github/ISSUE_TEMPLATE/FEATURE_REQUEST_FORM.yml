@@ -42,3 +42,8 @@ body:
       options:
       - label: I am willing to put up a bounty for this feature.
         required: false
+  - type: textarea
+    attributes:
+      label: Bounty Ammount (If Applicable)
+    validations:
+      required: false
